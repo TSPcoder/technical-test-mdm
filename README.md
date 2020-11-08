@@ -8,7 +8,7 @@ arrays/problem
 
 ### Environment
 
-- Python 3
+- Python
 - Pytest library
 
 ### Run the program

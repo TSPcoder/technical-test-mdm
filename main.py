@@ -1,7 +1,5 @@
-#!/bin/python3
+#!/bin/python
 
-#import sys
-#sys.path.append('technical-test-mdm/sparse_arrays')
 from sparse_arrays import SparseArray
 
 

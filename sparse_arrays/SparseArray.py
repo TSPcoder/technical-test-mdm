@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/bin/python
 
 def matchingStrings(strings, queries):
     q = len(queries)
