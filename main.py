@@ -3,20 +3,30 @@
 from util import SparseArray as sp
 from util import RandomArrayGenerator as rand
 
-import sys
 import os
+from flask import Flask, jsonify
+
+from flask_restplus import Resource, Api
+
+app = Flask(__name__)
+api = Api(app, title='SparseArrays', description='Matching queries with strings')
 
 
-def main():
-    # opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
-    args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
+@api.route('/query/<string:query>')
+class MatchingStrings(Resource):
 
-    # Determining the 'queries' array from the input arguments
-    queries = []
-    nb_queries = 0
-    for query in args:
-        queries.append(query)
-        nb_queries += 1
+    def get(self, query=''):
+        list_results = main(query)
+        results_query_occurences = list_results[0]
+        strings_array = list_results[1]
+        return jsonify({"query occurrences": results_query_occurences,
+                        "'strings' array": strings_array})
+
+
+def main(query):
+    # Constructing 'queries' array based on the query string passed as an argument
+    queries = query.split(",")
+    nb_queries = len(queries)
 
     # Arguments for generating the random 'strings' array
     min_range = 2
@@ -31,14 +41,16 @@ def main():
     sparse_array = sp.SparseArray(queries, strings)
     results = sparse_array.matchingStrings()
 
-    # Constructing the dictionnary result
-    resultsDict = {}
+    # Constructing the dictionary result
+    results_dict = {}
     for i in range(0, nb_queries):
-        resultsDict[queries[i]] = results[i]
+        results_dict[queries[i]] = results[i]
 
-    print("Number of occurences for which queries array " + str(queries) + " appear in the 'strings' array "
-          + str(strings) + " : " + "\n" + str(resultsDict))
+    # Saving the result in a list of 2 elements
+    # - number of query occurences
+    # - 'strings' array
+    return (results_dict, strings)
 
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
