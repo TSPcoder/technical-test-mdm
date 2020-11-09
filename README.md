@@ -10,15 +10,17 @@ arrays/problem
 
 - Python
 - Pytest library
+- Docker
 
 ### Description of the code
 
 The code is comprised of the following classes:
 
 ```
+├── Dockerfile
 ├── main.py
 ├── README.md
-├── test.py  
+├── test.py
 └── util
     ├── RandomArrayGenerator.py
     └── SparseArray.py
@@ -30,6 +32,12 @@ The code is comprised of the following classes:
 (from the `queries` array) in the `strings` array
 
 ### Run the program
+
+First, you have to be in the project folder:
+
+```bash
+cd technical-test-mdm
+```
 
 In order to run the code, run the following command:
 
@@ -52,6 +60,20 @@ The result will be displayed in a dictionnary as shown in the below example:
 ```
 {a: 2, bc: 1, de: 0, f: 0}
 ```
+
+#### Run the program with Docker
+
+Make sure you have docker installed: https://docs.docker.com/
+
+Then run below commands to build the Docker image from the Dockerfile and run it:
+
+```bash
+docker build . -t test_mdm
+docker run -t test_mdm a b c d e f g h
+```
+
+Note: You may have to run the command using `sudo` if you are not the user root 
+or if your user doesn't belong to the `docker` group.
 
 ### Tests
 
