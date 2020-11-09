@@ -1,8 +1,6 @@
 #!/bin/python
 
 class SparseArray:
-    queries: list
-    strings: list
     """Class defined by:
     - a collection of input strings named 'strings'
     - a collection of query strings name 'query' """
