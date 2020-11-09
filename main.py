@@ -28,15 +28,18 @@ def main(query):
     queries = query.split(",")
     nb_queries = len(queries)
 
-    # Arguments for generating the random 'strings' array
-    min_range = 2
-    max_range = 6
-    max_length = 2
+    if (os.getenv('STRINGS_ARRAY') is None):
 
-    # Determining the 'strings' array from the input arguments above
-    random_array_generator = rand.RandomArrayGenerator(min_range, max_range, max_length)
-    os.environ['STRINGS_ARRAY'] = random_array_generator.getRandomStringArrayGenerator()
-    strings = os.getenv('STRINGS_ARRAY').split(",")
+        # Generating 'strings' array from the below input arguments
+        min_range = 2
+        max_range = 6
+        max_length = 2
+
+        random_array_generator = rand.RandomArrayGenerator(min_range, max_range, max_length)
+        strings = random_array_generator.getRandomArrayGenerator()
+
+    else:
+        strings = os.getenv('STRINGS_ARRAY').split(",")
 
     sparse_array = sp.SparseArray(queries, strings)
     results = sparse_array.matchingStrings()
@@ -49,7 +52,7 @@ def main(query):
     # Saving the result in a list of 2 elements
     # - number of query occurences
     # - 'strings' array
-    return (results_dict, strings)
+    return results_dict, strings
 
 
 if __name__ == "__main__":
