@@ -28,7 +28,7 @@ def main(query):
     queries = query.split(",")
     nb_queries = len(queries)
 
-    if (os.getenv('STRINGS_ARRAY') is None):
+    if os.getenv('STRINGS_ARRAY') is None:
 
         # Generating 'strings' array from the below input arguments
         min_range = 2
@@ -56,4 +56,4 @@ def main(query):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
