@@ -19,15 +19,21 @@ The code is comprised of the following classes:
 ```
 ├── Dockerfile
 ├── images
+│   ├── ex1_query_result.png
+│   ├── ex2_query_result.png
 │   ├── swagger_ui_1.png
 │   └── swagger_ui_2.png
 ├── main.py
 ├── README.md
 ├── requirements.txt
+├── SQL
+│   └── mdm.sql
 ├── static
 │   └── swagger.json
 ├── test.py
 └── util
+    │   ├── RandomArrayGenerator.cpython-38.pyc
+    │   └── SparseArray.cpython-38.pyc
     ├── RandomArrayGenerator.py
     └── SparseArray.py
 ```
@@ -38,7 +44,8 @@ The code is comprised of the following classes:
 - main.py: main program launching a Flask API with Swagger UI (see below section to know how to run it)
 - test.py: test class (see the **Tests** section below for more details on how to run it)
 - util/RandomArrayGenerator.py: Class that generates a random string array (used to generate the `strings` array)
-- util/SparseArray.py: Class containing the function that determines the number of query occurences 
+- util/SparseArray.py: Class containing the function that determines the number of query occurences
+- SQL: folder containing the SQL queries (see ***Technical Test with SQL*** section at the bottom of the Readme file)
 (from the `queries` array) in the `strings` array
 
 ### Run the program
@@ -171,3 +178,50 @@ python -m pytest test.py
 - Add more comments and description to the `swagger.json` file
 - Add more tests to handle the `query` argument and the query endpoint
 - Assign a random environment variable for **STRINGS_ARRAY**
+
+
+## Technical Test with SQL
+
+### Environment
+
+Queries were executed in **MySql**
+
+### Results
+
+Find the creation of the different tables along with the SQL queries from the test in the `SQL` folder
+
+**Query Result for exercise 1:**  
+![ex1_query_result](images/ex1_query_result.png)
+
+**Query Result for exercise 2:**  
+![ex2_query_result](images/ex2_query_result.png)
+
+Notes: As the `FULL OUTER JOIN` operation was not available in MySql, a similar query was written on this principle:
+
+```sql
+SELECT * FROM t1
+FULL OUTER JOIN t2 ON t1.id=t2.id
+WHERE t1.id IS NULL OR t2.id IS NULL;
+```
+
+gives the same result as:
+
+```sql
+SELECT * FROM t1
+LEFT JOIN t2 ON t1.id = t2.id
+UNION ALL
+SELECT * FROM t1
+RIGHT JOIN t2 ON t1.id = t2.id
+WHERE t1.id IS NULL OR t2.id IS NULL
+```
+
+which is the same as:
+
+```sql
+SELECT * FROM t1
+LEFT JOIN t2 ON t1.id = t2.id
+UNION ALL
+SELECT * FROM t2
+LEFT JOIN t1 ON t2.id = t1.id
+WHERE t1.id IS NULL OR t2.id IS NULL
+```
