@@ -1,0 +1,45 @@
+{
+  "info": {
+    "description": "Matching queries with strings",
+    "version": "1.0.0",
+    "title": "SparseArrays Flask API",
+    "contact": {
+      "email": "belghiti.ali@gmail.com"
+    }
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/query/{query}": {
+      "get": {
+        "tags": [
+          "Query Request"
+        ],
+        "description": "Returns results of query occurences in 'strings' array",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "query",
+            "required": true,
+            "description": "string delimited by ','",
+            "schema": {
+              "type": "string",
+              "example": "ab,b,c,dy,o,p"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: result of matching query with the content of the 'strings' array",
+            "content": {
+              "text/plain:": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
